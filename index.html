@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UniVoice - Lắng nghe tiếng nói sinh viên</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  color: #68485a;
+  background: linear-gradient(135deg, #fff6fa, #ffeaf3);
+  min-height: 100vh;
+}
+
+/* Thanh đầu trang */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 8%;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  color: #c84f87;
+}
+
+.logo span {
+  color: #68485a;
+}
+
+.tag {
+  background: white;
+  color: #c84f87;
+  padding: 9px 17px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* Phần giới thiệu */
+.hero {
+  text-align: center;
+  padding: 45px 20px 25px;
+}
+
+.label {
+  display: inline-block;
+  background: white;
+  color: #c84f87;
+  border: 1px solid #f8d5e5;
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+h1 {
+  font-size: clamp(38px, 6vw, 65px);
+  line-height: 1.15;
+  margin: 22px 0;
+  font-weight: 900;
+}
+
+h1 span {
+  color: #c84f87;
+}
+
+.description {
+  max-width: 600px;
+  margin: auto;
+  color: #987d8c;
+  font-size: 17px;
+  line-height: 1.8;
+  font-weight: 600;
+}
+
+/* Khung chatbot */
+.chat-container {
+  max-width: 850px;
+  margin: 35px auto;
+  padding: 25px;
+  background: white;
+  border: 1px solid #f5d5e4;
+  border-radius: 28px;
+  box-shadow: 0 15px 45px #d98eae20;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f7e5ed;
+}
+
+.avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 20px;
+  background: #fff0f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.chat-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.chat-header p {
+  margin: 4px 0 0;
+  color: #a28b98;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.chat-welcome {
+  text-align: center;
+  padding: 35px 15px;
+}
+
+.welcome-bubble {
+  display: inline-block;
+  max-width: 550px;
+  background: #fff1f7;
+  border: 1px solid #f8dce9;
+  border-radius: 22px;
+  padding: 22px;
+  line-height: 1.8;
+  font-weight: 700;
+}
+
+.welcome-bubble strong {
+  color: #c84f87;
+}
+
+.chat-welcome p {
+  color: #a28b98;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+/* Hướng dẫn */
+.steps {
+  max-width: 850px;
+  margin: 25px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  padding: 0 10px;
+}
+
+.step {
+  background: #ffffffc9;
+  border: 1px solid #f5d5e4;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.step .emoji {
+  font-size: 28px;
+}
+
+.step h3 {
+  font-size: 15px;
+  margin: 10px 0 5px;
+}
+
+.step p {
+  color: #a28b98;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 700;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #a28b98;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Màu sắc Dialogflow */
+df-messenger {
+  --df-messenger-bot-message: #fff1f7;
+  --df-messenger-button-titlebar-color: #c84f87;
+  --df-messenger-button-titlebar-font-color: #ffffff;
+  --df-messenger-chat-background: #fffafd;
+  --df-messenger-font-color: #68485a;
+  --df-messenger-send-icon: #c84f87;
+  --df-messenger-user-message: #f9d9e8;
+  --df-messenger-minimized-chat-icon: #ffffff;
+  --df-messenger-chat-border-radius: 20px;
+  --df-messenger-chat-window-width: 360px;
+  --df-messenger-chat-window-height: 520px;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 18px 5%;
+  }
+
+  .tag {
+    font-size: 10px;
+  }
+
+  .hero {
+    padding-top: 30px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+
+  .chat-container {
+    margin: 25px 12px;
+    padding: 16px;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    margin: 20px 12px;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+  }
+
+  .step .emoji {
+    width: 35px;
+  }
+
+  df-messenger {
+    --df-messenger-chat-window-width: calc(100vw - 20px);
+    --df-messenger-chat-window-height: 70vh;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🎀 Uni<span>Voice</span></div>
+  <div class="tag">Student Feedback ♡</div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="label">✦ STUDENT VOICE ASSISTANT ✦</div>
+
+  <h1>
+    Lắng nghe<br>
+    <span>tiếng nói</span> của bạn.
+  </h1>
+
+  <p class="description">
+    UniVoice là chatbot hỗ trợ sinh viên chia sẻ phản hồi
+    và đánh giá mức độ hài lòng về môn học cũng như
+    hoạt động giảng dạy.
+  </p>
+</section>
+
+<section class="chat-container">
+
+  <div class="chat-header">
+    <div class="avatar">🐱</div>
+
+    <div>
+      <h2>Trò chuyện cùng UniVoice</h2>
+      <p>Trợ lý lắng nghe sinh viên</p>
+    </div>
+  </div>
+
+  <div class="chat-welcome">
+    <div class="welcome-bubble">
+      Xin chào bạn! 💗<br>
+      Mình là <strong>UniVoice</strong>.<br>
+      Hãy bắt đầu trò chuyện để chia sẻ cảm nhận
+      của bạn về môn học hoặc hoạt động giảng dạy nhé!
+    </div>
+
+    <p>
+      Nhấn biểu tượng chat ở góc dưới bên phải
+      để bắt đầu trò chuyện.
+    </p>
+  </div>
+
+</section>
+
+<section class="steps">
+
+  <div class="step">
+    <div class="emoji">📚</div>
+    <div>
+      <h3>Chọn nội dung</h3>
+      <p>Môn học hoặc hoạt động giảng dạy</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="emoji">💬</div>
+    <div>
+      <h3>Chia sẻ cảm nhận</h3>
+      <p>Trả lời các câu hỏi của chatbot</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="emoji">🌷</div>
+    <div>
+      <h3>Gửi phản hồi</h3>
+      <p>Góp phần cải thiện trải nghiệm học tập</p>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  Made with 💗 for student voices · UniVoice
+</footer>
+
+<!-- Dialogflow Messenger của bạn -->
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+
+<df-messenger
+  intent="WELCOME"
+  chat-title="UniVoice"
+  agent-id="c3ea8902-82c6-42e5-a1da-0d32b8f94789"
+  language-code="vi">
+</df-messenger>
+
+</body>
+</html>
